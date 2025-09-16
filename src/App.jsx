@@ -1,11 +1,12 @@
-import './App.css'
+import "./App.css";
+import AppNavBar from "./AppNavBar";
 
 function App() {
   return (
     <>
-      <h1>Shoes Shop</h1>
+      <AppNavBar />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
