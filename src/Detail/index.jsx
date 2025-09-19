@@ -129,7 +129,7 @@ function Detail({product}){
           </p> */}
           <p>{findProduct.price}</p>
           {/* 로그인 사용자의 이메일 출력 */}
-          <p>{loginUser.email}</p>
+          {/* <p>{loginUser.email}</p> */}
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
