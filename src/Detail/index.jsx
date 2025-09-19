@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Discount from "../Discount";
 import Nav from 'react-bootstrap/Nav';
 import TabContent from "../TabContent";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
 
 function Detail({product}){
+
+  const {loginUser} = useContext(UserContext);
+
   let [detailFade, setDetailFade] = useState('');
 
   const [showAlert, setShowAlert] = useState(true)
@@ -124,6 +128,8 @@ function Detail({product}){
               onChange={(e)=>{setInputData(e.target.value)}}/>
           </p> */}
           <p>{findProduct.price}</p>
+          {/* 로그인 사용자의 이메일 출력 */}
+          <p>{loginUser.email}</p>
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
