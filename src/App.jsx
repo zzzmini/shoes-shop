@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Detail from "./Detail";
 import About from "./About";
 import Home from "./Home";
+import Cart from "./Cart";
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
         <Route path="/" element={<Home product={product} setProduct={setProduct}/>} />
         {/* /detail/2 -> PathVariable 설정 법 */}
         <Route path="/detail/:id" element={<Detail product={product}/>} />
-        <Route path="/cart" element={<div>장바구니페이지</div>} />
+        <Route path="/cart" element={<Cart />} />
         {/* 중첩라우팅 처리 */}
         <Route path="/about" element={<About/>}>
           {/* /about/member */}
