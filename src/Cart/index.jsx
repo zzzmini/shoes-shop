@@ -13,7 +13,8 @@ function Cart(){
 
   // 카트 데이터 가져오기
   // const cartData = cartStore((x)=> x.cartData);
-  const {cartData, addItem, removeItem, updateItem} = cartStore();
+  const {cartData, addItem, removeItem, updateItem, plusCount, minusCount} 
+      = cartStore();
 
   console.log(cartData)
 
@@ -129,6 +130,7 @@ function Cart(){
             <th>#</th>
             <th>상품명</th>
             <th>수량</th>
+            <th>금액</th>
             <th>변경하기</th>
           </tr>
         </thead>
@@ -137,10 +139,23 @@ function Cart(){
             cartData.map((item, index)=>{
               return(
                 <tr key={index}>
-                  <th>{item.id}</th>
-                  <th>{item.name}</th>
-                  <th>{item.count}</th>
-                  <th>수정삭제</th>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.count}</td>
+                  <td>00000000</td>
+                  <td>
+                    <div style={{display: "flex", gap: "6px"}}>
+                      <button className="btn btn-sm btn-success" 
+                        onClick={()=>plusCount(item.id)}>
+                          +</button>
+                      <button className="btn btn-sm btn-warning" 
+                        onClick={()=>minusCount(item.id)}>
+                          -</button>
+                      <button className="btn btn-sm btn-danger" 
+                        onClick={()=>removeItem(item.id)}>
+                          삭제</button>
+                    </div>
+                  </td>
                 </tr>
               )
             })
