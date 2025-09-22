@@ -3,10 +3,21 @@ import { immer } from "zustand/middleware/immer";
 
 const cartStore = create(immer((set)=>(
   {
-    cartData: [
-      {id: 0, name: "White and Black", count: 2},
-      {id: 1, name: "Grey Nike", count: 1},
-    ],
+    // 카트 초기화
+    cartData: [],
+
+    plusCount: (id) => 
+      set((state)=>{
+        const idx = state.cartData.findIndex((x)=> x.id === id);
+        if(idx !== -1) state.cartData[idx].count ++
+      }),
+
+    minusCount: (id) => 
+      set((state)=>{
+        const idx = state.cartData.findIndex((x)=> x.id === id);
+        if((idx !== -1) && !(state.cartData[idx].count === 0)) 
+          state.cartData[idx].count -= 1
+      }),  
 
     addItem: (item) =>
       set((state) => {
@@ -33,9 +44,9 @@ const cartStore = create(immer((set)=>(
         // 수정할 객체 먼저 찾기
         const item = state.cartData.find((x)=> x.id === id)
         if(item){
-          // name이 공백이 아닌 경우
-          if(updates.name !== ""){
-            item.name = updates.name
+          // title이 공백이 아닌 경우
+          if(updates.title !== ""){
+            item.title = updates.name
           }
 
           // 수량이 숫자로 오면 변경
