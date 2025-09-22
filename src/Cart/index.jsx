@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import Table from 'react-bootstrap/Table';
 import userStore from "../store/userStore";
 import cartStore from "../store/cartStore";
 import {Form, Row, Col, Button, InputGroup} from "react-bootstrap"
+import { formatKRW } from "../util/formatKRW";
 
 function Cart(){
   // 특정 스테이트만 가져오는 방법
@@ -13,7 +14,7 @@ function Cart(){
 
   // 카트 데이터 가져오기
   // const cartData = cartStore((x)=> x.cartData);
-  const {cartData, addItem, removeItem, updateItem, plusCount, minusCount} 
+  const {cartData, addItem, removeItem, updateItem, plusCount, minusCount, clearAll} 
       = cartStore();
 
   console.log(cartData)
@@ -78,6 +79,15 @@ function Cart(){
     })
   }
 
+  // 총 금액을 계산하는 함수
+  // useMemo(메모이제이션) : cartData가 변경될 때만 total 계산되도록.
+  // item.price??0 : item.price 가 널이면... 0 주고, 그렇지 않으면 원래 값 리턴
+  const total = useMemo(
+    () => cartData.reduce((sum, item)=> 
+        sum + ((item.price??0)*(item.count??0)), 0),
+    [cartData]
+  )
+
   return(
     <div>
       {/* CRUD 테스트 용 폼 */}
@@ -140,9 +150,9 @@ function Cart(){
               return(
                 <tr key={index}>
                   <td>{item.id}</td>
-                  <td>{item.name}</td>
+                  <td>{item.title}</td>
                   <td>{item.count}</td>
-                  <td>00000000</td>
+                  <td>{formatKRW(item.price * item.count)}</td>
                   <td>
                     <div style={{display: "flex", gap: "6px"}}>
                       <button className="btn btn-sm btn-success" 
@@ -161,7 +171,21 @@ function Cart(){
             })
           }
         </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={3} style={{textAlign:"right", fontWeight:700}}>총 금액</td>
+            <td style={{fontWeight:700}}>
+              {formatKRW(total)}
+            </td>
+          </tr>
+        </tfoot>
       </Table>
+      <div className="d-flex justify-content-end">
+          <Button variant="danger" disabled={cartData.length === 0}
+            onClick={()=> clearAll()}>
+            카트비우기
+          </Button>
+      </div>
     </div>
   )
 }
